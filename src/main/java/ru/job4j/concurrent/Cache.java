@@ -1,4 +1,4 @@
-package ru.job4j.atom;
+package ru.job4j.concurrent;
 
     public final class Cache {
         private static Cache cache;
