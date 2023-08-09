@@ -1,6 +1,6 @@
 package ru.job4j.linked;
 
-public class Node<T> {
+public final class Node<T> {
     private final Node<T> next;
     private final T value;
 
@@ -12,7 +12,6 @@ public class Node<T> {
     public Node<T> getNext() {
         return next;
     }
-
 
     public T getValue() {
         return value;
