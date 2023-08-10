@@ -23,11 +23,11 @@ public final class ParseFile {
         return output.toString();
     }
 
-    public synchronized String getContentWithoutUnicode(Predicate<Integer> filter) throws IOException {
+    public synchronized String getContentWithoutUnicode() throws IOException {
         return getContent(data -> data < 0x80);
     }
 
-    public synchronized String getContentWithUnicode(Predicate<Integer> filter) throws IOException {
+    public synchronized String getContentWithUnicode() throws IOException {
         return getContent(data -> true);
     }
 }
