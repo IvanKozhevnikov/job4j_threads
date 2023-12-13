@@ -21,37 +21,26 @@ public class Wget implements Runnable {
     public void run() {
         Thread thread = new Thread(
                 () -> {
-
                     System.out.println("Run");
-                    var startAt = System.currentTimeMillis();
-                    var file = new File("tmp.xml");
+                    String fileName = url.substring(url.lastIndexOf('/') + 1);
+                    var file = new File(fileName);
                     try (var in = new URL(url).openStream();
                          var out = new FileOutputStream(file)) {
-                        System.out.println("Open connection: " + (System.currentTimeMillis() - startAt) + " ms");
                         var dataBuffer = new byte[speed];
+                        long start = System.currentTimeMillis();
                         int bytesRead;
-                        double countMemory = 0;
-                        while ((bytesRead = in.read(dataBuffer, 0, dataBuffer.length)) != -1) {
-                            double downloadAt = System.nanoTime();
+                        int downloadData = 0;
+                        while ((bytesRead = in.read(dataBuffer, 0, speed)) != -1) {
+                            downloadData += bytesRead;
                             out.write(dataBuffer, 0, bytesRead);
-                            double bytes = Files.size(file.toPath()) - countMemory;
-                            double timeNano = System.nanoTime() - downloadAt;
-                            double timeMilliseconds = timeNano / 1000000;
-                            double byteSecond = bytes / timeMilliseconds;
-                            double timePause = (byteSecond / 1000) - timeMilliseconds;
-                            countMemory = Files.size(file.toPath());
-                            long timePauseRounded = (long) timePause;
-                            System.out.println("байт:                           " + bytes);
-                            System.out.println("время загрузки:                 " + timeNano);
-                            System.out.println("время загрузки в миллисекундах: " + timeMilliseconds);
-                            System.out.println("байт в миллисекунду:            " + byteSecond);
-                            System.out.println("время задержки не округлённое:  " + timePause);
-                            System.out.println("время задержки:                 " + timePauseRounded);
-                            System.out.println("---------------------------------------------------");
-                            System.out.println("");
-                            System.out.println("---------------------------------------------------");
-                            if (speed <= 6000) {
-                                Thread.sleep(timePauseRounded);
+                            if (downloadData >= speed) {
+                                long finish = System.currentTimeMillis();
+                                long time = finish - start;
+                                if (time < 1000) {
+                                    Thread.sleep(1000 - time);
+                                }
+                                downloadData = 0;
+                                start = System.currentTimeMillis();
                             }
                         }
                     } catch (IOException | InterruptedException e) {
@@ -65,15 +54,6 @@ public class Wget implements Runnable {
                 }
         );
         thread.start();
-    }
-
-    public static boolean isURL(String url) {
-        try {
-            new URL(url);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private static boolean validate(String[] args) {
