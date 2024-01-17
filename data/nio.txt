@@ -1,0 +1,20 @@
+Buffer	
+A container for data of a specific primitive type.
+ByteBuffer	
+A byte buffer.
+ByteOrder	
+A typesafe enumeration for byte orders.
+CharBuffer	
+A char buffer.
+DoubleBuffer	
+A double buffer.
+FloatBuffer	
+A float buffer.
+IntBuffer	
+An int buffer.
+LongBuffer	
+A long buffer.
+MappedByteBuffer	
+A direct byte buffer whose content is a memory-mapped region of a file.
+ShortBuffer	
+A short buffer.
