@@ -9,6 +9,7 @@ public class PipedUsage {
     public static void main(String[] args) throws IOException {
 
         final PipedInputStream input = new PipedInputStream();
+
         final PipedOutputStream output = new PipedOutputStream();
 
         Thread firstThread = new Thread(() -> {

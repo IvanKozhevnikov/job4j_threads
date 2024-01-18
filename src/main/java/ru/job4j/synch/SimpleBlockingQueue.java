@@ -9,7 +9,9 @@ import java.util.Queue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
+
     private int maxSize;
+
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
 
@@ -33,6 +35,7 @@ public class SimpleBlockingQueue<T> {
         notify();
         return element;
     }
+
     public synchronized boolean isEmpty() {
         return queue.isEmpty();
     }
